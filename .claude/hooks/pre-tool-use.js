@@ -23,6 +23,27 @@ const secretPatterns = [
   /\b(cat|type|more|less|head|tail|Get-Content|gc)\s+(?:[^|;&\n]*?[\s'"/\\])?\.env(\.[\w-]+)?(?=$|[\s'"|;&)])/im,
 ];
 
+// `rm -rf` is allowed only when every target is a build/output directory in the project root.
+const allowedRmTargets = /^(\.\/)?(target|data|node_modules)\/?$/;
+
+function isAllowedRm(segment) {
+  const match = segment.match(/^\s*rm\s+-rf\s+(.+?)\s*$/);
+  if (!match) {
+    return false;
+  }
+  return match[1]
+    .split(/\s+/)
+    .every((arg) => allowedRmTargets.test(arg.replace(/^['"]|['"]$/g, "")));
+}
+
+// Drops allowed `rm -rf <build dir>` segments so the destructive patterns only see the rest.
+function withoutAllowedRm(command) {
+  return command
+    .split(/&&|\|\||[;|\n]/)
+    .filter((segment) => !isAllowedRm(segment))
+    .join(" ; ");
+}
+
 function block(reason) {
   process.stderr.write(`BLOCKED: ${reason}\n`);
   process.exit(2);
@@ -40,8 +61,9 @@ process.stdin.on("end", () => {
     // not JSON, treat raw input as the literal command text
   }
 
+  const checkedCommand = withoutAllowedRm(command);
   for (const pattern of destructivePatterns) {
-    if (pattern.test(command)) {
+    if (pattern.test(checkedCommand)) {
       block(`command matches destructive pattern ${pattern}.`);
     }
   }
