@@ -19,7 +19,8 @@ const secretPatterns = [
   /secret\s*[:=]\s*['"][^'"]{8,}/i,
   /aws_(access_key_id|secret_access_key)\s*[:=]/i,
   /-----BEGIN (RSA|EC|OPENSSH|PRIVATE) KEY-----/,
-  /\b(cat|type|more|less|head|tail|Get-Content|gc)\s+.*\.env\b/i,
+  // A file reader whose own arguments (same command segment) include a .env / .env.* file.
+  /\b(cat|type|more|less|head|tail|Get-Content|gc)\s+(?:[^|;&\n]*?[\s'"/\\])?\.env(\.[\w-]+)?(?=$|[\s'"|;&)])/im,
 ];
 
 function block(reason) {
@@ -27,14 +28,14 @@ function block(reason) {
   process.exit(2);
 }
 
-let raw = '';
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', (chunk) => (raw += chunk));
-process.stdin.on('end', () => {
+let raw = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", (chunk) => (raw += chunk));
+process.stdin.on("end", () => {
   let command = raw;
   try {
     const event = JSON.parse(raw);
-    command = (event.tool_input && event.tool_input.command) || '';
+    command = (event.tool_input && event.tool_input.command) || "";
   } catch {
     // not JSON, treat raw input as the literal command text
   }
