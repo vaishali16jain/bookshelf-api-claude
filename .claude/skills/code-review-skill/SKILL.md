@@ -10,13 +10,15 @@ You perform a structured code review of the completed implementation before PR c
 
 ## Procedure
 1. Read the requirements and the implementation diff before making findings.
-2. Inspect the changed files and nearby code with `git diff main...HEAD`, `git status`, Read, and Grep.
-3. Evaluate every checklist area below.
-4. Lead with findings, ordered by severity.
-5. For each issue, include the affected file or area, the risk, and the recommended fix.
-6. If an area passes, state the pass explicitly.
-7. Do not silently approve. Every checklist area must receive a pass, fail, or needs-human-confirmation note.
-8. Do not modify code in this step unless the human explicitly asks for the review fixes to be implemented.
+2. Inspect the changed files and nearby code with `git diff <base>...HEAD`, `git status`, Read, and Grep. `<base>` is the base branch given by the orchestrator (default `main`).
+3. Evaluate every checklist area below. The same checklist is kept in `checklist.xlsx` at the repo root; if it differs from the table below, follow `checklist.xlsx` and note the difference.
+4. For **Dependency Safety**, run `python .claude/skills/code-review-skill/scripts/osv_audit.py` and paste its output. Exit code 1 (vulnerable coordinates) is a fail; exit code 2 (audit could not run) is needs-human-confirmation. Also flag any dependency added or changed in `pom.xml` by this story.
+5. Lead with findings, ordered by severity.
+6. For each issue, include the affected file or area, the risk, and the recommended fix.
+7. If an area passes, state the pass explicitly.
+8. Do not silently approve. Every checklist area must receive a pass, fail, or needs-human-confirmation note.
+9. Write the findings to `docs/review.md` as a dated, story-tagged section with a table of review area, result, evidence, and follow-up.
+10. Do not modify code in this step unless the human explicitly asks for the review fixes to be implemented.
 
 ## Code Review Checklist
 

@@ -40,7 +40,11 @@ Each subagent preloads its role skill from `.claude/skills/`:
 | 5. Implementation          | `implementation-agent`       | `implementation-skill`    | code, tests, `docs/implementation.md` |
 | 6. Review                  | `code-review-agent`          | `code-review-skill`       | `docs/review.md`                      |
 | 7. Verify                  | `verify-agent`               | `verify-skill`            | `docs/verify.md`                      |
-| 8. PR Using Agentic SDLC   | `pr-agent`                   | `pr-skill`                | `docs/pr.md`, `CHANGELOG.md`          |
+| 8. PR Using Agentic SDLC   | `pr-agent`                   | `pr-skill`                | `docs/pr.md`, `CHANGELOG.md`, the PR  |
+
+The story can come from a Jira key, a Confluence page, a `.docx` path, or inline text.
+The orchestrator works on a `us-xxx-<slug>` branch, commits each step's artifacts, and
+stops for approval of the requirements, the implementation plan, and the push/PR.
 
 A single step can also be run directly, e.g. "use the architect-agent for US-103"
 or `/architecture-skill` to run that role in the main conversation.

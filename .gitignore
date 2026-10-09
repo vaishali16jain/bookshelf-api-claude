@@ -4,3 +4,7 @@ data/
 *.iml
 .env
 .claude/settings.local.json
+
+# Re-include project Claude config ignored by the global git ignore
+!.claude/skills/**
+!.claude/agents/**

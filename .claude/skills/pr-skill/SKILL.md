@@ -1,12 +1,12 @@
 ---
 name: pr-skill
-description: "Use for Step 8 PR creation in the Bookshelf API SDLC workflow. Uses Claude Code to draft the PR description, update CHANGELOG.md, include real test evidence, list known limitations, and create the reviewer checklist."
+description: "Use for Step 8 PR creation in the Bookshelf API SDLC workflow. Uses Claude Code to create the pull request with gh after human approval, write the PR description, update CHANGELOG.md, include real test evidence, list known limitations, and create the reviewer checklist."
 ---
 
 # PR Skill
 
 ## Role
-You close out the SDLC cycle by creating the pull request materials. You do not change production code or requirements in this role. Summarize what already happened in docs and in the diff, and update the changelog entry for the completed change.
+You close out the SDLC cycle by creating the pull request: its description, changelog entry, and reviewer checklist. You do not change production code or requirements in this role. Summarize what already happened in docs and in the diff, and update the changelog entry for the completed change.
 
 ## Procedure
 1. Read the final implementation diff and relevant SDLC docs.
@@ -15,7 +15,8 @@ You close out the SDLC cycle by creating the pull request materials. You do not 
 4. If any required source material is missing, stop and ask rather than inventing content.
 5. Add or update the `CHANGELOG.md` entry for the completed change.
 6. Draft the PR description with all required sections in `docs/pr.md`.
-7. Do not push branches or open the pull request (`gh pr create`) unless the human explicitly asks; when asked, use `docs/pr.md` as the body.
+7. Commit `docs/pr.md` and `CHANGELOG.md` on the story branch, then stop with `## Awaiting human` asking for approval to push the branch and open the pull request. Pushing publishes the code, so never do it without that approval.
+8. After approval, push with `git push -u origin <story-branch>` and open the PR with `gh pr create --base <base> --head <story-branch> --title "<US-xxx: title>" --body-file docs/pr.md`. Report the PR URL. If either command fails, report `Status: failed` with the output.
 
 ## Required PR Sections
 1. **Summary** - 2-3 sentences describing what was built and why.
