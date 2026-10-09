@@ -1,6 +1,6 @@
 ---
 name: pr-skill
-description: "Use for Step 8 PR creation in the Bookshelf API SDLC workflow. Uses Copilot Agent Mode to draft the PR description, update CHANGELOG.md, include real test evidence, list known limitations, and create the reviewer checklist."
+description: "Use for Step 8 PR creation in the Bookshelf API SDLC workflow. Uses Claude Code to draft the PR description, update CHANGELOG.md, include real test evidence, list known limitations, and create the reviewer checklist."
 ---
 
 # PR Skill
@@ -14,7 +14,8 @@ You close out the SDLC cycle by creating the pull request materials. You do not 
 3. Confirm real test evidence exists from the verify step or CI results.
 4. If any required source material is missing, stop and ask rather than inventing content.
 5. Add or update the `CHANGELOG.md` entry for the completed change.
-6. Draft the PR description with all required sections.
+6. Draft the PR description with all required sections in `docs/pr.md`.
+7. Do not push branches or open the pull request (`gh pr create`) unless the human explicitly asks; when asked, use `docs/pr.md` as the body.
 
 ## Required PR Sections
 1. **Summary** - 2-3 sentences describing what was built and why.

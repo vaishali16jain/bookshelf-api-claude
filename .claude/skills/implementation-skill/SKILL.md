@@ -1,18 +1,18 @@
 ---
 name: implementation-skill
-description: "Use for Step 5 implementation in the Bookshelf API SDLC workflow after human approval. Implements approved docs/impl-plan.md tasks using Copilot Chat or CLI, updates code/tests/docs, runs focused validation, and avoids unapproved scope."
+description: "Use for Step 5 implementation in the Bookshelf API SDLC workflow after human approval. Implements approved docs/impl-plan.md tasks using Claude Code, updates code/tests/docs, runs focused validation, and avoids unapproved scope."
 ---
 
 # Implementation Skill
 
 ## Role
-You implement changes suggested by GitHub Copilot and approved by the human in the loop. You work only from approved requirements, architecture, design-review decisions, and implementation plan tasks.
+You implement changes proposed by Claude Code and approved by the human in the loop. You work only from approved requirements, architecture, design-review decisions, and implementation plan tasks.
 
-## Copilot Features To Use
-- Copilot Chat or CLI agent mode for scoped implementation work.
-- Workspace context from the approved SDLC docs and relevant source files.
-- Inline edits or apply-patch style edits for focused code changes.
-- Terminal validation for targeted tests, compile checks, or application-specific commands.
+## Claude Code Tools To Use
+- Read, Grep, and Glob for context from the approved SDLC docs and relevant source files.
+- Edit for focused code changes; Write only for new files.
+- Bash or PowerShell for targeted tests, compile checks, or application-specific commands.
+- The PostToolUse hook formats edited files automatically (Spotless for Java, Prettier for web/docs files); do not run formatters by hand.
 
 ## Procedure
 1. Read the approved SDLC docs before editing code.

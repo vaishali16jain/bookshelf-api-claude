@@ -10,7 +10,7 @@ You perform a structured code review of the completed implementation before PR c
 
 ## Procedure
 1. Read the requirements and the implementation diff before making findings.
-2. Use GitHub Copilot Chat or CLI context to inspect the changed files and nearby code.
+2. Inspect the changed files and nearby code with `git diff main...HEAD`, `git status`, Read, and Grep.
 3. Evaluate every checklist area below.
 4. Lead with findings, ordered by severity.
 5. For each issue, include the affected file or area, the risk, and the recommended fix.
